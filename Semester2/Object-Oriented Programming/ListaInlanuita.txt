@@ -1,0 +1,165 @@
+/******************************************************************************
+
+        	Operatii elementare pe o lista
+             Implementare: Nechifor Eduard-Andrei
+    Facultatea de Matematica si Informatica UBB Cluj-Napoca
+
+*******************************************************************************/
+
+#include <stdio.h>
+
+typedef struct node {
+	int info;
+	struct node* next;
+}node;
+
+
+//Function that adds a value
+node* add(node* head, int infoToAdd) {
+	node* aux = (node*)malloc(sizeof(node));
+	node* iterator = (node*)malloc(sizeof(node));
+
+	aux -> info = infoToAdd;
+	aux -> next = NULL;
+	if (head == NULL) {
+        return aux;
+	} else {
+	    iterator = head;
+	    while (iterator -> next != NULL) {
+            iterator = iterator -> next;
+	    }
+        iterator -> next = aux;
+	}
+    return head;
+}
+
+//Function which prints list
+void printList(node* head) {
+    printf("\nLista este : ");
+    while (head != NULL) {
+        printf("%d ", head -> info);
+        head = head -> next;
+    }
+    printf("\n");
+}
+
+//Function which prints the UI
+void showUI() {
+    printf("................................................\n");
+    printf("|1 -> Afiseaza lista                           |\n");
+    printf("|2 -> Adauga element in lista                  |\n");
+    printf("|3 -> Sterge elementul de ordine x din lista   |\n");
+    printf("|4 -> Numarul de elemente a listei             |\n");
+    printf("|5 -> Sortarea listei                          |\n");
+    printf("|6 -> Exit                                     |\n");
+    printf("................................................\n");
+}
+
+//Function which deletes a position
+void deletePosition(node* head, int position) {
+    int iterator;
+    for (iterator = 1; iterator < position; iterator++) {
+        head = head -> next;
+    }
+    node* aux = head -> next;
+    head -> info = head -> next -> info;
+    head -> next = head -> next -> next;
+    free(aux);
+}
+
+//Function which returns the size of dynamic list
+int size(node* head) {
+    int number = 0;
+    while(head != NULL) {
+        number++;
+        head = head -> next;
+    }
+    return number;
+}
+
+//Function which deletes the first element
+node* deleteFirst(node* head) {
+    node* aux = head;
+    head = head -> next;
+    free(aux);
+    return head;
+}
+
+//Function which deletes the last element
+node* deleteLast(node *head) {
+    node* aux = head;
+    while (aux -> next -> next != NULL) {
+        aux = aux -> next;
+    }
+    aux -> next = NULL;
+    free(aux -> next);
+    return head;
+}
+
+//Selection sort
+void sort(node* head) {
+    node* iterator = head;
+    node* jterator = head -> next;
+    for (; iterator -> next; iterator = iterator -> next) {
+        for (jterator = iterator -> next; jterator; jterator = jterator -> next) {
+                if (iterator -> info > jterator -> info) {
+                    int variable = iterator -> info;
+                    iterator -> info = jterator -> info;
+                    jterator -> info = variable;
+                }
+        }
+    }
+    printf("Lista a fost sortata!\n");
+}
+
+int main() {
+
+    node* head = (node*) malloc(sizeof(node));
+    head = NULL;
+    int command = 0;
+
+    while (1) {
+            showUI();
+            scanf("%d", &command);
+            if (command == 6) {
+                while (size(head)) {
+                    head = deleteFirst(head);
+                }
+                return 0;
+            } else if (command == 1) {
+                if (head == NULL) {
+                    printf("Lista este goala acum\n");
+                } else {
+                    printList(head);
+                }
+            } else if (command == 2) {
+                printf(">> ");
+                int value;
+                scanf("%d", &value);
+                head = add(head, value);
+            } else if (command == 3) {
+                int position;
+                scanf("%d", &position);
+                if (position > size(head) || position <= 0) {
+                    printf("Ati introdus o valoare gresita\n");
+                } else if (position == 1) {
+                    head = deleteFirst(head);
+                } else if (position == size(head)) {
+                    head = deleteLast(head);
+                }
+                else {
+                    deletePosition(head, position);
+                }
+            } else if (command == 4) {
+                printf("Numarul de elemente a listei este %d\n", size(head));
+            } else if (command == 5) {
+                if (size(head) == 0) {
+                    printf("Nu avem ce sa sortam!\n");
+                } else {
+                    sort(head);
+                }
+            }
+    }
+
+	return 0;
+}

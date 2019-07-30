@@ -1,0 +1,21 @@
+[2019-05-13 10:12:12] [info] Start Program:
+Path:"C:\Users\Edy\Desktop\lab9\Debug\lab6-7.exe"
+Arguments:
+Working directory: "C:\Users\Edy\Desktop\lab9\lab6-7\"
+Modules: Selected: C:\Users\Edy\Desktop\lab9\Debug\lab6-7.exe Excluded: 
+Sources: Selected: C:\Users\Edy\Desktop\lab9\lab6-7 Excluded: console.cpp 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\Edy\AppData\Local\Temp\mvwpo2tu.u1s 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2019-05-13 10:12:12] [info] Module: C:\Users\Edy\Desktop\lab9\Debug\lab6-7.exe is selected because it matches selected pattern: C:\Users\Edy\Desktop\lab9\Debug\lab6-7.exe
+[2019-05-13 10:12:14] [info] ----------------------------------------------------
+[2019-05-13 10:12:14] [info] Coverage binary generated in file: C:\Users\Edy\AppData\Local\Temp\mvwpo2tu.u1s
+[2019-05-13 10:12:14] [info] ----------------------------------------------------

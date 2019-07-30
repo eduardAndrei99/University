@@ -1,0 +1,21 @@
+[2019-06-26 13:42:26] [info] Start Program:
+Path:"C:\Users\Edy\source\repos\ExamenOOP\x64\Debug\ExamenOOP.exe"
+Arguments:
+Working directory: "C:\Users\Edy\source\repos\ExamenOOP\ExamenOOP\"
+Modules: Selected: C:\Users\Edy\source\repos\ExamenOOP\x64\Debug\ExamenOOP.exe Excluded: 
+Sources: Selected: C:\Users\Edy\source\repos\ExamenOOP\ExamenOOP Excluded: Ui.cpp 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\Edy\AppData\Local\Temp\mt41qvin.3zv 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2019-06-26 13:42:26] [info] Module: C:\Users\Edy\source\repos\ExamenOOP\x64\Debug\ExamenOOP.exe is selected because it matches selected pattern: C:\Users\Edy\source\repos\ExamenOOP\x64\Debug\ExamenOOP.exe
+[2019-06-26 13:42:32] [info] ----------------------------------------------------
+[2019-06-26 13:42:32] [info] Coverage binary generated in file: C:\Users\Edy\AppData\Local\Temp\mt41qvin.3zv
+[2019-06-26 13:42:32] [info] ----------------------------------------------------

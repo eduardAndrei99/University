@@ -1,0 +1,5 @@
+titlu2,descriere1,tip1,5
+a,c,c,100
+act1,desca1,tip1,100
+titlu1,descriere1,tip1,10
+elem2,tipeElem,descElem2,100

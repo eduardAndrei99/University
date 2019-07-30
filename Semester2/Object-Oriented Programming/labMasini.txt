@@ -1,0 +1,1306 @@
+/******************************************************************************
+
+                          Aplicatie ce gestioneaza masini
+                        Implementare: Nechifor Eduard - Andrei
+                    Facultatea de Matematica Informatica UBB Cluj-Napoca
+                        Timp de implementare: aprox. 2 saptamani
+                        Aplicatia are test coverage 100%
+                                Fara memory leaks
+                                  Fara warnings
+                    Conditii: numarul de inmatriculare trebuie sa fie intreg
+                    Categoria trebuie sa fie una dintre: {suv, mini, sport, etc}
+
+*******************************************************************************/
+
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+
+const int dim = 250;
+
+/*
+ *Struct car
+*/
+typedef struct Car{
+	int number;
+	char* model;
+	char* category;
+	int rent;
+}Car;
+
+typedef Car* TElem;
+
+typedef struct DynamicVector {
+	int currentSize;
+	int maxSize;
+	TElem* elems;
+}DynamicVector;
+
+/*
+ * Function that creates a vector
+ * return a new vector
+ */
+DynamicVector* createVector(int size);
+
+/*
+ * Function that resize a vector
+ */
+void resizeVector(DynamicVector* v);
+
+/*
+ * Function that adds an element in vector
+ */
+void add(DynamicVector* v, TElem element);
+
+/*
+ * Function that frees the memory occupied by elements of a Dynamic Vector
+ * :param DynamicVector:
+ * :post: the memory occupied by the elements will be freed
+ */
+void destroyElems(DynamicVector* vect);
+
+/*
+ * Function that destroys a DynamicVector
+ * :param DynamicVector: the dynamic vector we want to delete
+ * :post: the memory allocated for the dynamic vector will be freed
+ */
+void destroyVector(DynamicVector* vect);
+
+/*
+ * Function that copies a dynamic Vector
+ * :param DynamicVector: the dynamic vector to be copied
+ * :return: a copy of the DynamicVector
+ */
+DynamicVector* copy(DynamicVector* v);
+
+/*
+ *Function that will create a car
+ *Return a pointer to a car
+ */
+Car* create(int number, char* model, char* category);
+
+/*
+ * Function that return number of the car 1
+ */
+int getNumber(Car* car1);
+
+/*
+ * Function that return model of the car 1
+ */
+char* getModel(Car* car1);
+
+/*
+ *Function that return category of the car 1
+ */
+char* getCategory(Car* car1);
+
+/*
+ * Function that get rent
+ */
+int getRent(Car* car);
+
+/*
+ *
+ */
+void testCreate();
+
+/*
+ * Function that destroys a car
+ */
+void destroyCar(Car* car);
+
+typedef struct Repository {
+	DynamicVector* cars;
+}Repository;
+
+/*
+ * create a repository
+ * return a Repository*
+ */
+Repository* createRepository(int size);
+
+/*
+ * Function that adds a car in repository
+ */
+void addInRepository(Repository* repository, Car* car);
+
+/*
+ * get all cars
+ */
+DynamicVector* getCars(Repository* repository);
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else return 0
+ */
+int updateInRepository(Repository* repository, int number, char* model, char* category);
+
+/*
+ * Function that rent a car
+ * return 1: if rent was successfull
+ * else: return 0
+ */
+int rentCarRepository(Repository* repository, int number);
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else return 0
+ */
+int returnCarRepository(Repository* repository, int number);
+
+/*
+ * Function that destroys a repository
+ * :param TransRepo: repository to be deleted
+ * :post: memory occupied by the repository will be freed
+ */
+void destroyRepository(Repository* repository);
+
+typedef struct Service {
+	Repository* repository;
+}Service;
+
+/*
+ * Function that creates a new service
+ * :param Repository: the Repository for the service
+ * :return: a new service
+ */
+Service* createService(Repository* repository);
+
+/*
+ * Function that adds a car in service
+ */
+void addInService(Service* service, int number, char* model, char* category);
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else : return 0
+ */
+int updateCarService(Service* service, int number, char* model, char* category);
+
+/*
+ * Function that rent a car
+ * return 1: if rant was successfull
+ * else: return 0
+ */
+int rentCarService(Service* service, int number);
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else : return 0
+ */
+int returnCarService(Service* service, int number);
+
+/*
+ * Function that sort by model
+ * return a dynamicVector
+ */
+DynamicVector* sortModelAscending(Service* service, DynamicVector* allCars);
+
+/*
+ * Function that sort by category
+ * return a dynamicVector
+ */
+DynamicVector* sortCategoryAscending(Service* service, DynamicVector* allCars);
+
+/*
+ * Function that destroys a service
+ * :param Service: the service to destroy
+ * :post: the memory held by the service will be freed
+ */
+void destroyService(Service* service);
+
+void testAdd();
+void testGetCars();
+void testValid();
+void testUpdate();
+void testRent();
+void testSort();
+void testDestroyCar();
+void testDestroyVector();
+void testDestroyUi();
+
+typedef struct Ui {
+	Service* service;
+}Ui;
+
+/*
+ * Function that creates a new user interface
+ * :param Service: the service for the UI
+ * :return: a new User Interface
+ */
+Ui* createUi(Service* service);
+
+/*
+ * Function that prints the menu to the user
+ * :post: the menu will be printed to the user
+ */
+void printUi();
+
+/*
+ * Function that coordinates the menu
+ * :return: -
+ * post: -
+ */
+void runUi(Ui* ui);
+
+/*
+ * Function that reads a car and transfer to service
+ */
+void readCar(Ui* ui);
+
+/*
+ * Function that prints all cars
+ */
+void printCars(Ui* ui);
+
+/*
+ * Function that validate category
+ */
+int validateType(char* category);
+
+/*
+ * param :: string, a string number
+ * return int(string)
+ */
+int getInteger(char* string);
+
+/*
+ * Function that verify if string is number
+ * return 1: if string is number
+ * else return 0
+ */
+int isNumber(char* command);
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else return 0
+ */
+int updateCar(Ui* ui);
+
+/*
+ * Function that rent a car
+ * return 1: if rent was successfull
+ * else return 0
+ */
+int rentCar(Ui* ui);
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else return 0
+ */
+int returnCar(Ui* ui);
+
+/*
+ * car filter
+ */
+void carFilter(Ui* ui);
+
+/*
+ * sort model ascending
+ */
+void modelAscending(Ui* ui);
+
+/*
+ * sort model descending
+ */
+void modelDescending(Ui* ui);
+
+/*
+ * sort category ascendng
+ */
+void categoryAscending(Ui* ui);
+
+/*
+ * sort category descending
+ */
+void categoryDescending(Ui* ui);
+
+/*
+ * Function that destroys all the data from the user interface
+ * :param UI: the user interface we want to destroy
+ */
+void destroyUi(Ui* ui);
+
+void runAllTests() {
+	testCreate();
+	testAdd();
+	testGetCars();
+	testValid();
+	testUpdate();
+	testRent();
+	testSort();
+	testDestroyCar();
+	testDestroyVector();
+	testDestroyUi();
+}
+
+int main() {
+	runAllTests();
+
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+
+	addInService(service, 1, "dacia", "sport");
+	addInService(service, 2, "dacia", "suv");
+	addInService(service, 3, "wv", "etc");
+	addInService(service, 5, "sandero", "mini");
+	addInService(service, 6, "matiz", "mini");
+	addInService(service, 10, "bugatti", "suv");
+	rentCarService(service, 5);
+	rentCarService(service, 10);
+	runUi(ui);
+	destroyUi(ui);
+	//_CrtDumpMemoryLeaks(); //print memory leak
+
+	return 0;
+}
+
+/*
+ *Function that will create a car
+ *Return a pointer to a car
+ */
+Car* create(int number, char* model, char* category) {
+	Car* result = (Car*)malloc(sizeof(Car));
+	result->number = number;
+	result->model = (char*)malloc(dim * sizeof(char));
+	strcpy(result->model, model);
+	result->category = (char*)malloc(dim * sizeof(char));
+	strcpy(result->category, category);
+	result->rent = 0;
+	return result;
+}
+
+/*
+ * Function that return number of the car 1
+ */
+int getNumber(Car* car1) {
+	return car1->number;
+}
+
+/*
+ * Function that return model of the car 1
+ */
+char* getModel(Car* car1) {
+	return car1->model;
+}
+
+
+/*
+ *Function that return category of the car 1
+ */
+char* getCategory(Car* car1) {
+	return car1->category;
+}
+
+void testCreate() {
+	Car* car1 = create(21, "toyota", "sport");
+	assert(getNumber(car1) == 21);
+	assert(strcmp(getModel(car1), "toyota") == 0);
+	assert(strcmp(getCategory(car1), "sport") == 0);
+	assert(getRent(car1) == 0);
+
+	Car* car2 = create(98, "matiz", "mini");
+	assert(getNumber(car2) == 98);
+	assert(strcmp(getModel(car2), "matiz") == 0);
+	assert(strcmp(getCategory(car2), "mini") == 0);
+	destroyCar(car1);
+	destroyCar(car2);
+}
+
+/*
+ * Function that get rent
+ */
+int getRent(Car* car) {
+	return car->rent;
+}
+
+/*
+ * Function that destroys a car
+ */
+void destroyCar(Car* car) {
+	free(car->model);
+	free(car->category);
+	car->model = NULL;
+	car->category = NULL;
+	car->rent = -1;
+	car->number = -1;
+	free(car);
+}
+
+/*
+ * create a repository
+ * return a Repository*
+ */
+Repository* createRepository(int size) {
+	Repository* repository = (Repository*)malloc(sizeof(Repository));
+	repository->cars = createVector(size);
+	return repository;
+}
+
+/*
+ * Function that adds a car in repository
+ */
+void addInRepository(Repository* repository, Car* car) {
+	add(repository->cars, car);
+}
+
+/*
+ * get all cars
+ */
+DynamicVector* getCars(Repository* repository) {
+	return repository->cars;
+}
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else return 0
+ */
+int updateInRepository(Repository* repository, int number, char* model, char* category) {
+	DynamicVector* allCars = getCars(repository);
+	for (int i = 0; i < allCars->currentSize; i++) {
+		if (getNumber(allCars->elems[i]) == number) {
+			allCars->elems[i]->number = number;
+			strcpy(allCars->elems[i]->model, model);
+			strcpy(allCars->elems[i]->category, category);
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
+ * Function that rent a car
+ * return 1: if rent was successfull
+ * else: return 0
+ */
+int rentCarRepository(Repository* repository, int number) {
+	DynamicVector* allCars = getCars(repository);
+	for (int i = 0; i < allCars->currentSize; i++) {
+		if (getNumber(allCars->elems[i]) == number && getRent(allCars->elems[i]) == 0) {
+			allCars->elems[i]->rent = 1;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else return 0
+ */
+int returnCarRepository(Repository* repository, int number) {
+	DynamicVector* allCars = getCars(repository);
+	for (int i = 0; i < allCars->currentSize; i++) {
+		if (getNumber(allCars->elems[i]) == number && getRent(allCars->elems[i])==1) {
+			allCars->elems[i]->rent = 0;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+/*
+ * Function that destroys a repository
+ * :param TransRepo: repository to be deleted
+ * :post: memory occupied by the repository will be freed
+ */
+void destroyRepository(Repository* repository) {
+	destroyVector(repository->cars);
+	free(repository);
+}
+
+/*
+ * Function that creates a new service
+ * :param Repository: the Repository for the service
+ * :return: a new service
+ */
+Service* createService(Repository* repository) {
+	Service* service = (Service*)malloc(sizeof(Service));
+	service->repository = repository;
+	return service;
+}
+
+/*
+ * Function that adds a car in service
+ */
+void addInService(Service* service, int number, char* model, char* category) {
+	Car* car = create(number, model, category);
+	addInRepository(service->repository, car);
+}
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else : return 0
+ */
+int updateCarService(Service* service, int number, char* model, char* category) {
+	//Car* car = create(number, model, category);
+	return updateInRepository(service->repository, number, model, category);
+}
+
+/*
+ * Function that rent a car
+ * return 1: if rant was successfull
+ * else: return 0
+ */
+int rentCarService(Service* service, int number) {
+	return rentCarRepository(service->repository, number);
+}
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else : return 0
+ */
+int returnCarService(Service* service, int number) {
+	return returnCarRepository(service->repository, number);
+}
+
+/*
+ * Function that sort by model
+ * return a dynamicVector
+ */
+DynamicVector* sortModelAscending(Service* service, DynamicVector* cars) {
+	DynamicVector* allCars = copy(cars);
+	for (int i = 0; i < allCars->currentSize - 1; i++) {
+		for (int j = i + 1; j < allCars->currentSize; j++) {
+			if (strcmp(getModel(allCars->elems[i]), getModel(allCars->elems[j])) > 0) {
+				int number = getNumber(allCars->elems[i]);
+				char* model = getModel(allCars->elems[i]);
+				char* category = getCategory(allCars->elems[i]);
+				int rent = getRent(allCars->elems[i]);
+				allCars->elems[i]->number = allCars->elems[j]->number;
+				allCars->elems[i]->model = allCars->elems[j]->model;
+				allCars->elems[i]->category = allCars->elems[j]->category;
+				allCars->elems[i]->rent = allCars->elems[j]->rent;
+				allCars->elems[j]->number = number;
+				allCars->elems[j]->model = model;
+				allCars->elems[j]->category = category;
+				allCars->elems[j]->rent = rent;
+			}
+		}
+	}
+	return allCars;
+}
+
+/*
+ * Function that sort by category
+ * return a dynamicVector
+ */
+DynamicVector* sortCategoryAscending(Service* service, DynamicVector* cars) {
+	DynamicVector* allCars = copy(cars);
+	for (int i = 0; i < allCars->currentSize - 1; i++) {
+		for (int j = i + 1; j < allCars->currentSize; j++) {
+			if (strcmp(getCategory(allCars->elems[i]), getCategory(allCars->elems[j])) > 0) {
+				int number = getNumber(allCars->elems[i]);
+				char* model = getModel(allCars->elems[i]);
+				char* category = getCategory(allCars->elems[i]);
+				int rent = getRent(allCars->elems[i]);
+				allCars->elems[i]->number = allCars->elems[j]->number;
+				allCars->elems[i]->model = allCars->elems[j]->model;
+				allCars->elems[i]->category = allCars->elems[j]->category;
+				allCars->elems[i]->rent = allCars->elems[j]->rent;
+				allCars->elems[j]->number = number;
+				allCars->elems[j]->model = model;
+				allCars->elems[j]->category = category;
+				allCars->elems[j]->rent = rent;
+			}
+		}
+	}
+	return allCars;
+}
+
+/*
+ * Function that destroys a service
+ * :param Service: the service to destroy
+ * :post: the memory held by the service will be freed
+ */
+void destroyService(Service* service) {
+	destroyRepository(service->repository);
+	free(service);
+}
+
+void testAdd() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+	Car* car = create(23, "dacia", "mini");
+	addInRepository(repository, car);
+	assert(repository->cars->currentSize == 1);
+	Car* car3 = create(23, "dacia", "mini");
+	addInRepository(repository, car3);
+	assert(repository->cars->currentSize == 2);
+	Car* car2 = create(31, "fiat", "sport");
+	addInRepository(repository, car2);
+	assert(repository->cars->currentSize == 3);
+	int number = 3;
+	char* model = "vw";
+	char* category = "suv";
+	addInService(service, number, model, category);
+	assert(repository->cars->currentSize == 4);
+	destroyUi(ui);
+}
+
+void testGetCars() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+	Car* car = create(23, "dacia", "mini");
+	addInRepository(repository, car);
+	Car* car3 = create(23, "dacia", "mini");
+	addInRepository(repository, car3);
+	Car* car2 = create(31, "fiat", "sport");
+	addInRepository(repository, car2);
+	int number = 3;
+	char* model = "vw";
+	char* category = "suv";
+	addInService(service, number, model, category);
+	DynamicVector* allCars = getCars(repository);
+	assert(allCars->currentSize == 4);
+	Car* car5 = create(2, "fiat", "mini");
+	addInRepository(repository, car5);
+	destroyUi(ui);
+}
+
+void testValid() {
+	char* category = "mini";
+	int goodCategory = validateType(category);
+	assert(goodCategory == 1);
+	category = "sport";
+	goodCategory = validateType(category);
+	assert(goodCategory == 1);
+	category = "suv";
+	goodCategory = validateType(category);
+	assert(goodCategory == 1);
+	category = "etc";
+	goodCategory = validateType(category);
+	assert(goodCategory == 1);
+	category = "ddsa";
+	goodCategory = validateType(category);
+	assert(goodCategory == 0);
+	char* number = "123";
+	int intNumber = getInteger(number);
+	assert(intNumber == 123);
+	assert(isNumber(number) == 1);
+	number = "adsa";
+	assert(isNumber(number) == 0);
+}
+
+void testUpdate() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+
+	addInService(service, 1, "dacia", "sport");
+	addInService(service, 2, "dacia", "suv");
+	addInService(service, 3, "wv", "etc");
+	addInService(service, 5, "sandero", "mini");
+	addInService(service, 6, "matiz", "mini");
+	addInService(service, 10, "bugatti", "suv");
+	rentCarService(service, 5);
+	rentCarService(service, 10);
+	assert(updateInRepository(repository, 1, "logan", "sport") == 1);
+	assert(updateInRepository(repository, 7, "dsada", "mini") == 0);
+	assert(updateCarService(service, 1, "logan", "sport") == 1);
+	assert(updateCarService(service, 6, "logan", "sport") == 1);
+	assert(updateCarService(service, 69, "dsadas", "mini")==0);
+	assert(updateInRepository(repository, 69, "Dsadsa", "sport") == 0);
+	destroyUi(ui);
+}
+
+void testRent() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+	Car* car = create(23, "dacia", "mini");
+	addInRepository(repository, car);
+	Car* car2 = create(31, "fiat", "sport");
+	addInRepository(repository, car2);
+	int number = 3;
+	char* model = "vw";
+	char* category = "suv";
+	addInService(service, number, model, category);
+	int ok = rentCarService(service, 69);
+	assert(ok == 0);
+	ok = rentCarService(service, 23);
+	assert(ok == 1);
+	assert(getRent(repository->cars->elems[0]) == 1);
+	ok = returnCarService(service, 69);
+	assert(ok == 0);
+	ok = returnCarService(service, 23);
+	assert(ok == 1);
+	assert(getRent(repository->cars->elems[0]) == 0);
+
+	ok = rentCarRepository(repository, 69);
+	assert(ok == 0);
+	ok = rentCarRepository(repository, 23);
+	assert(ok == 1);
+	assert(getRent(repository->cars->elems[0]) == 1);
+	ok = returnCarRepository(repository, 69);
+	assert(ok == 0);
+	ok = returnCarRepository(repository, 23);
+	assert(ok == 1);
+	assert(getRent(repository->cars->elems[0]) == 0);
+	destroyUi(ui);
+}
+
+void testSort() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+	Car* car2 = create(31, "fiat", "sport");
+	addInRepository(repository, car2);
+	int number = 3;
+	char* model = "vw";
+	char* category = "suv";
+	addInService(service, number, model, category);
+	Car* car = create(23, "dacia", "mini");
+	addInRepository(repository, car);
+	DynamicVector* allCars = getCars(repository);
+	DynamicVector* v = sortModelAscending(service, allCars);
+	assert(getNumber(v->elems[0]) == 23);
+	DynamicVector* p = sortCategoryAscending(service, allCars);
+	assert(getNumber(p->elems[0]) == 23);
+	destroyUi(ui);
+	destroyVector(v);
+	destroyVector(p);
+}
+
+void testDestroyCar() {
+	Car* car1 = create(21, "dsada", "suv");
+	Car* car2 = create(1, "dacia", "sport");
+	destroyCar(car1);
+	destroyCar(car2);
+}
+
+void testDestroyVector() {
+	DynamicVector* v = createVector(10);
+	destroyVector(v);
+
+	DynamicVector* cars = createVector(10);
+	Car* car = create(1, "dacia", "sport");
+	add(cars, car);
+	Car* car2 = create(2, "dacia", "suv");
+	add(cars, car2);
+	destroyVector(cars);
+}
+
+void testDestroyUi() {
+	Repository* repository = createRepository(2);
+	Service* service = createService(repository);
+	Ui* ui = createUi(service);
+	Car* car2 = create(31, "fiat", "sport");
+	addInRepository(repository, car2);
+	//destroyUi(ui);
+	char* model = "fiaaat";
+	char* category = "suv";
+	addInService(service, 1, model, category);
+	destroyUi(ui);
+}
+
+/*
+ * Function that creates a new user interface
+ * :param Service: the service for the UI
+ * :return: a new User Interface
+ */
+Ui* createUi(Service* service) {
+	Ui* ui = (Ui*)malloc(sizeof(Ui));
+	ui->service = service;
+	return ui;
+}
+
+/*
+ * Function that prints the menu to the user
+ * :post: the menu will be printed to the user
+ */
+void printUi() {
+	printf("......................................................\n");
+	printf("| [1] Adaugare de masina                              |\n");
+	printf("| [2] Actualizare masina                              |\n");
+	printf("| [3] Inchiriere masina                               |\n");
+	printf("| [4] Returnare masina                                |\n");
+	printf("| [5] Vizualizare masini dupa criteriu                |\n");
+	printf("| [6] Sortarea masinilor crescator dupa model         |\n");
+	printf("| [7] Sortarea masinilor crescator dupa categorie     |\n");
+	printf("| [8] Sortarea masinilor descrescator dupa model      |\n");
+	printf("| [9] Sortarea masinilor descrescator dupa categorie  |\n");
+	printf("| [10] Afiseaza masinile                              |\n");
+	printf("| [11] Exit                                           |\n");
+	printf("......................................................\n");
+}
+
+/*
+ * Function that prints all cars
+ */
+void printCars(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	for (int i = 0; i < allCars->currentSize; i++) {
+		printf("%d  %s  %s ", getNumber(allCars->elems[i]), getModel(allCars->elems[i]), getCategory(allCars->elems[i]));
+		if (getRent(allCars->elems[i]) == 1) {
+			printf("inchiriata\n");
+		}
+		else {
+			printf("libera \n");
+		}
+	}
+	printf("\n");
+}
+
+/*
+ * Function that verify if a command is int or string
+ * Return 1: if command = int
+ * Else return 0
+*/
+int isNumber(char* command) {
+	for (size_t i = 0; i < strlen(command); i++) {
+		if (command[i] > '9' || command[i] < '0') {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+/*
+ * Function that validate category
+ */
+int validateType(char* category) {
+	int ok = 0;
+	if (strcmp(category, "sport") == 0) {
+		ok = 1;
+	}
+	else if (strcmp(category, "suv") == 0) {
+		ok = 1;
+	}
+	else if (strcmp(category, "mini") == 0) {
+		ok = 1;
+	}
+	else if (strcmp(category, "etc") == 0) {
+		ok = 1;
+	}
+	return ok;
+}
+
+/*
+ * Function that extracts the number from a string
+ * :param string: the string where we'll get the number from
+ * :param n: where we'll store the number
+ * :return: the number represented by the string
+ */
+int getInteger(char* string) {
+	int n = 0;
+	for (size_t i = 0; i < strlen(string); ++i) {
+		n = n * 10 + (string[i] - '0');
+	}
+	return n;
+}
+
+/*
+ * Function that reads a car and transfer to service
+ */
+void readCar(Ui* ui) {
+	printf("Introduceti numarul de inmatriculare : ");
+	char* number = (char*)malloc(dim * sizeof(char));
+	char* model = (char*)malloc(dim * sizeof(char));
+	char* category = (char*)malloc(dim * sizeof(char));
+	int intNumber;
+
+	int nrCharRead = scanf("%s", number);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		free(model);
+		free(category);
+		return;
+	}
+	else if (isNumber(number) == 0) {
+		free(number);
+		free(model);
+		free(category);
+		return;
+	}
+	intNumber = getInteger(number);
+	printf("\nIntroduceti modelul : ");
+	nrCharRead= scanf("%s", model);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		free(model);
+		free(category);
+		return;
+	}
+	printf("\nIntroduceti categoria : ");
+	nrCharRead = scanf("%s", category);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		free(model);
+		free(category);
+		return;
+	}
+	if (validateType(category) == 0) {
+		printf("Nu ati introdus o categorie valida\n");
+		free(number);
+		free(model);
+		free(category);
+		return;
+	}
+	addInService(ui->service, intNumber, model, category);
+	free(number);
+	free(model);
+	free(category);
+}
+
+/*
+ * Function that update a car
+ * return 1: if update was successfull
+ * else return 0
+ */
+int updateCar(Ui* ui) {
+	printf("Introduceti numarul de inmatriculare a masinii: ");
+	char* number = (char*)malloc(dim * sizeof(char));
+	char* model = (char*)malloc(dim * sizeof(char));
+	char* category = (char*)malloc(dim * sizeof(char));
+	int nrCharRead = scanf("%s", number);
+	int intNumber;
+	if (isNumber(number)) {
+		intNumber = getInteger(number);
+	}
+	else {
+		printf("Nu ati introdus un numar valid\n");
+		free(number);
+		free(model);
+		free(category);
+		return 0;
+	}
+	printf("\nIntroduceti modelul : ");
+	nrCharRead = scanf("%s", model);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		free(model);
+		free(category);
+		return 0;
+	}
+	printf("\nIntroduceti categoria : ");
+	nrCharRead = scanf("%s", category);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		free(model);
+		free(category);
+		return 0;
+	}
+	if (validateType(category) == 0) {
+		printf("Nu ati introdus o categorie valida\n");
+		free(number);
+		free(model);
+		free(category);
+		return 0;
+	}
+	int ok = updateCarService(ui->service, intNumber, model, category);
+	if (!ok) {
+		//free(number);
+		free(model);
+		free(category);
+	}
+	else {
+		//free(number);
+		free(model);
+		free(category);
+	}
+	free(number);
+	return ok;
+}
+
+/*
+ * Function that rent a car
+ * return 1: if rent was successfull
+ * else return 0
+ */
+int rentCar(Ui* ui) {
+	printf("Introduceti numarul de inmatriculare : ");
+	char* number = (char*)malloc(dim * sizeof(char));
+	int intNumber;
+
+	int nrCharRead = scanf("%s", number);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		return 0;
+	}
+	else if (isNumber(number) == 0) {
+		free(number);
+		return 0;
+	}
+	intNumber = getInteger(number);
+	int ok = rentCarService(ui->service, intNumber);
+	free(number);
+	return ok;
+}
+
+/*
+ * Function that return a car
+ * return 1: if return was successfull
+ * else return 0
+ */
+int returnCar(Ui* ui) {
+	printf("Introduceti numarul de inmatriculare : ");
+	char* number = (char*)malloc(dim * sizeof(char));
+	int intNumber;
+
+	int nrCharRead = scanf("%s", number);
+	if (nrCharRead < 0) {
+		printf("Nu poate fi gol! \n");
+		free(number);
+		return 0;
+	}
+	else if (isNumber(number) == 0) {
+		return 0;
+		free(number);
+	}
+	intNumber = getInteger(number);
+	free(number);
+	return returnCarService(ui->service, intNumber);
+}
+
+/*
+ * car filter
+ */
+void carFilter(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	printf("Introduceti categoria sau modelul ");
+	char* model = (char*)malloc(dim * sizeof(char));
+	scanf("%s", model);
+	for (int i = 0; i < allCars->currentSize; i++) {
+		if (strstr (getModel(allCars->elems[i]), model)) {
+			printf("%d  %s  %s\n", getNumber(allCars->elems[i]), getModel(allCars->elems[i]), getCategory(allCars->elems[i]));
+		}
+		else if (strstr(getCategory(allCars->elems[i]), model)) {
+			printf("%d  %s  %s\n", getNumber(allCars->elems[i]), getModel(allCars->elems[i]), getCategory(allCars->elems[i]));
+		}
+	}
+	free(model);
+}
+
+/*
+ * sort model ascending
+ */
+void modelAscending(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	DynamicVector* sorted = sortModelAscending(ui->service, allCars);
+
+	for (int i = 0; i < sorted->currentSize; i++) {
+		printf("%d  %s  %s\n", getNumber(sorted->elems[i]), getModel(sorted->elems[i]), getCategory(sorted->elems[i]));
+	}
+	destroyVector(sorted);
+}
+
+/*
+ * sort model descending
+ */
+void modelDescending(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	DynamicVector* sorted = sortModelAscending(ui->service, allCars);
+
+	for (int i = sorted->currentSize-1; i >= 0; i--) {
+		printf("%d  %s  %s\n", getNumber(sorted->elems[i]), getModel(sorted->elems[i]), getCategory(sorted->elems[i]));
+	}
+	destroyVector(sorted);
+}
+
+/*
+ * sort category ascendng
+ */
+void categoryAscending(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	DynamicVector* sorted = sortCategoryAscending(ui->service, allCars);
+
+	for (int i = 0; i < sorted->currentSize; i++) {
+		printf("%d  %s  %s\n", getNumber(sorted->elems[i]), getModel(sorted->elems[i]), getCategory(sorted->elems[i]));
+	}
+	destroyVector(sorted);
+}
+
+/*
+ * sort category descending
+ */
+void categoryDescending(Ui* ui) {
+	DynamicVector* allCars = getCars(ui->service->repository);
+	DynamicVector* sorted = sortCategoryAscending(ui->service, allCars);
+
+	for (int i = sorted->currentSize-1; i >= 0; i--) {
+		printf("%d  %s  %s\n", getNumber(sorted->elems[i]), getModel(sorted->elems[i]), getCategory(sorted->elems[i]));
+	}
+	destroyVector(sorted);
+}
+
+/*
+ * Function that destroys all the data from the user interface
+ * :param UI: the user interface we want to destroy
+ */
+void destroyUi(Ui* ui) {
+	destroyService(ui->service);
+	free(ui);
+}
+
+/*
+ * Function that coordinates the menu
+ * :return: -
+ * post: -
+ */
+void runUi(Ui* ui) {
+	while (1) {
+		printUi();
+		printf("\n");
+		char* command = (char*)malloc(dim * sizeof(char));
+		int nrCharRead = scanf("%s", command);
+		if (isNumber(command)) {
+			int comand = getInteger(command);
+			if (comand == 11) {
+				free(command);
+				return;
+			}
+			if (comand == 1) {
+				readCar(ui);
+			}
+			else if (comand == 10) {
+				printCars(ui);
+			}
+			else if (comand == 2) {
+				int ok = updateCar(ui);
+				if (ok) {
+					printf("Masina a fost actualizata !\n");
+				}
+				else {
+					printf("Masina nu exista !\n");
+				}
+			}
+			else if (comand == 3) {
+				int ok = rentCar(ui);
+				if (ok) {
+					printf("Masina a fost inchiriata cu succes! \n");
+				}
+				else {
+					printf("Nu se poate inchiria aceasta masina! \n");
+				}
+			}
+			else if (comand == 4) {
+				int ok = returnCar(ui);
+				if (ok) {
+					printf("Masina a fost returnata cu succes! \n");
+				}
+				else {
+					printf("Nu se poate returna aceasta masina! \n");
+				}
+			}
+			else if (comand == 5) {
+				carFilter(ui);
+			}
+			else if (comand == 6) {
+				modelAscending(ui);
+			}
+			else if (comand == 8) {
+				modelDescending(ui);
+			}
+			else if (comand == 7) {
+				categoryAscending(ui);
+			}
+			else if (comand == 9) {
+				categoryDescending(ui);
+			}
+		}
+		printf("\n");
+		free(command);
+	}
+}
+
+/*
+ * Function that creates a vector
+ * return a new vector
+ */
+DynamicVector* createVector(int size) {
+	DynamicVector* v = (DynamicVector*)malloc(sizeof(DynamicVector));
+	v->maxSize = size;
+	v->currentSize = 0;
+	v->elems = (TElem*)malloc(size * sizeof(TElem));
+	return v;
+}
+
+/*
+ * Function that resize a vector
+ */
+void resizeVector(DynamicVector* v) {
+	int newSize = 2 * v->maxSize;
+	TElem* newElems = (TElem*)malloc(newSize * sizeof(TElem));
+	for (int i = 0; i < v->currentSize; i++) {
+		newElems[i] = v->elems[i];
+	}
+	free(v->elems);
+	v->elems = newElems;
+	v->maxSize = newSize;
+}
+
+/*
+ * Function that adds an element in vector
+ */
+void add(DynamicVector* v, TElem element) {
+	if (v->currentSize == v->maxSize) {
+		resizeVector(v);
+	}
+	v->elems[v->currentSize] = element;
+	v->currentSize++;
+}
+
+/*
+ * Function that frees the memory occupied by elements of a Dynamic Vector
+ * :param DynamicVector:
+ * :post: the memory occupied by the elements will be freed
+ */
+
+void destroyElems(DynamicVector* vect) {
+	for (int i = 0; i < vect->currentSize; i++) {
+		destroyCar(vect->elems[i]);
+	}
+	free(vect->elems);
+}
+
+/*
+ * Function that destroys a DynamicVector
+ * :param DynamicVector: the dynamic vector we want to delete
+ * :post: the memory allocated for the dynamic vector will be freed
+ */
+void destroyVector(DynamicVector* vect) {
+	destroyElems(vect);
+	free(vect);
+}
+
+/*
+ * Function that copies a dynamic Vector
+ * :param DynamicVector: the dynamic vector to be copied
+ * :return: a copy of the DynamicVector
+ */
+DynamicVector* copy(DynamicVector* v) {
+	DynamicVector* newVect = createVector(v->maxSize);
+	newVect->currentSize = 0;
+	int i = 0;
+	for (; i < v->currentSize; i++) {
+		int number = getNumber(v->elems[i]);
+		char* model = getModel(v->elems[i]);
+		char* category = getCategory(v->elems[i]);
+		int rent = getRent(v->elems[i]);
+		Car* car = create(number, model, category);
+		car->rent = rent;
+		add(newVect, car);
+	}
+	return newVect;
+}
