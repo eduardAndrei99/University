@@ -1,0 +1,3 @@
+﻿  Source.cpp
+c:\users\edy\source\repos\johnson\johnson\source.cpp(12): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  johnson.vcxproj -> C:\Users\Edy\source\repos\johnson\Debug\johnson.exe
