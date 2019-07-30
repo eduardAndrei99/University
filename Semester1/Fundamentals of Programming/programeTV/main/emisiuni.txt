@@ -1,0 +1,3 @@
+bbb,tip2,5,aaa
+aaa,tip1,3,aaa
+accesdirect,tip2,5,dsadsa

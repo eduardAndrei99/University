@@ -1,0 +1,8 @@
+1,alexandru,bucuresti
+2,paty,sascut
+3,mihai,cluj
+4,andrei,cluj
+5,ioana,bucuresti
+6,daniel,oradea
+7,damaris,oradea
+8,andrei,sighet

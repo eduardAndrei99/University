@@ -1,0 +1,9 @@
+eduard,andrei,180,Pivot
+cristiano,ronaldo,100,Pivot
+ciprian,tatarusanu,30,Pivot
+leo,messi,100,Extrema
+mihai,ion,400,Extrema
+romeo,fantastik,103,Extrema
+guta,nikolae,4043,Fundas
+becali,gigi,200,Fundas
+borcea,nasu,1120,Fundas

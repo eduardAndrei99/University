@@ -1,0 +1,15 @@
+Fr,a,En,aa
+Fr,b,En,bb
+Fr,c,En,cc
+Ro,pisica,En,cat
+Fr,kkk,Ro,bbb
+Ro,caine,En,dog
+Ro,mancare,En,food
+Fr,dsada,En,adsadada
+Fr,dsadsa,Ro,dsadsada
+En,behavior,Ro,comportament
+En,big,Ro,mare
+En,caineee,Fr,chaninnn
+Ro,bunica,Fr,bunuii
+Fr,bonjour,Ro,Salut
+Ro,mihai,Fr,mihay

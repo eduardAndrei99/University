@@ -1,0 +1,6 @@
+2,lapte,10
+3,prez,3131
+4,fulga,32
+5,papica,100
+6,dsa,100
+69,cd_manele, infinit

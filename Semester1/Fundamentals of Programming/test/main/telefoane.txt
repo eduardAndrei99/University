@@ -1,0 +1,9 @@
+87,Pixel3,Android9 Snapdragon845,1000
+7,Galaxy S9,Android8 Snapdragon845,1000
+3,iphone8,Ios Versiune5, 3000
+4,iphonex,ios versiune4, 1000
+5,orange,android5 snapdragon333, 2000
+6,samsungj5,android2 snapdr222, 1000
+10,nokia,windows3,1000
+11,nokialumia,windows3,2000
+12,nokialumiac3,windows3,1000

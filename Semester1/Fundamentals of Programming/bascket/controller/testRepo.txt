@@ -1,0 +1,2 @@
+bercea,mondialu,123,Pivot
+marcel,necunoscutu,100,Fundas
