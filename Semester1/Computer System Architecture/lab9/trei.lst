@@ -1,0 +1,24 @@
+     1                                  bits 32                         
+     2                                  segment code use32 public code
+     3                                  global g
+     4                                  
+     5                                  g:
+     6 00000000 BE01000000              	mov esi,1
+     7 00000005 BF00000000                  mov edi,0
+     8 0000000A 8B4C2404                    mov ecx, [esp+4]
+     9                                       repeta:
+    10 0000000E 8B44240C                        mov eax, [esp+12]
+    11 00000012 8A3438                          mov dh, [eax+edi]
+    12                                          
+    13 00000015 8B442408                        mov eax, [esp+8]
+    14 00000019 8A3C30                          mov bh, [eax+esi]
+    15 0000001C 8B442410                        mov eax, [esp+16] 
+    16 00000020 883438                          mov [eax+edi],dh
+    17 00000023 883C30                          mov [eax+esi],bh
+    18 00000026 46                              inc esi
+    19 00000027 46                              inc esi
+    20 00000028 47                              inc edi
+    21 00000029 47                              inc edi
+    22 0000002A E2E2                         loop repeta
+    23                                  	
+    24 0000002C C21000                  	ret 16

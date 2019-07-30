@@ -1,0 +1,51 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  import printf msvcrt.dll
+     4                                  import exit msvcrt.dll
+     5                                  extern printf, exit
+     6                                  extern f,g
+     7                                  
+     8                                  segment data use32
+     9                                  	
+    10 00000000 6162636465667A6D69-         a db "abcdefzmihai",0
+    10 00000009 68616900           
+    11                                      lg equ ($-a)/2
+    12 0000000D 30<rept>                    rez times lg*2 db '0'
+    13 00000019 626164636665716961-         b db "badcfeqiahim",0
+    13 00000022 68696D00           
+    14 00000026 2573                        format db "%s"
+    15 00000028 0A00                        spatiu db 0Ah,0
+    16 0000002A 2564                        formatD db "%d"
+    17                                  
+    18                                  segment code use32 public code
+    19                                  start:
+    20                                  	
+    21 00000000 68[0D000000]                push rez
+    22 00000005 68[00000000]                push a
+    23 0000000A 68[19000000]                push b
+    24 0000000F 6A06                        push lg
+    25                                  
+    26 00000011 E8(00000000)                call f
+    27                                      
+    28 00000016 C605[19000000]00            mov byte [rez+lg*2],0
+    29 0000001D 68[0D000000]                    push dword rez
+    30 00000022 68[26000000]                    push dword format
+    31 00000027 FF15[00000000]                  call [printf]
+    32 0000002D 83C408                          add esp, 4*2
+    33                                          
+    34 00000030 68[0D000000]                push rez
+    35 00000035 68[00000000]                push a
+    36 0000003A 68[19000000]                push b
+    37 0000003F 6A06                        push lg
+    38                                      
+    39 00000041 E8(00000000)                call g
+    40                                       
+    41 00000046 C605[19000000]00             mov byte [rez+lg*2],0
+    42 0000004D 68[0D000000]                    push dword rez
+    43 00000052 68[26000000]                    push dword format
+    44 00000057 FF15[00000000]                  call [printf]
+    45 0000005D 83C408                          add esp, 4*2
+    46                                       
+    47                                       
+    48 00000060 6A00                    	push 0
+    49 00000062 FF15[00000000]          	call [exit]
