@@ -1,0 +1,5 @@
+﻿  Colectie.cpp
+  Source.cpp
+  Generating Code...
+c:\users\edy\source\repos\lab6sda\lab6sda\iteratorcolectie.h(79): warning C4715: 'IteratorColectie::element': not all control paths return a value
+  lab6sda.vcxproj -> C:\Users\Edy\source\repos\lab6sda\Debug\lab6sda.exe

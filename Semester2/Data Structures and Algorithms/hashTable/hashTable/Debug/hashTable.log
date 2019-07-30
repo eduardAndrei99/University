@@ -1,0 +1,25 @@
+﻿  Source.cpp
+  hashTable.vcxproj -> C:\Users\Edy\source\repos\hashTable\Debug\hashTable.exe
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(10): warning C26426: Global initializer calls a non-constexpr function 'std::basic_ifstream<char,std::char_traits<char> >::basic_ifstream<char,std::char_traits<char> >' (i.22).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(10): warning C26426: Global initializer calls a non-constexpr function 'std::basic_ifstream<char,std::char_traits<char> >::`vbase destructor'' (i.22).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(11): warning C26426: Global initializer calls a non-constexpr function 'std::basic_ofstream<char,std::char_traits<char> >::basic_ofstream<char,std::char_traits<char> >' (i.22).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(11): warning C26426: Global initializer calls a non-constexpr function 'std::basic_ofstream<char,std::char_traits<char> >::`vbase destructor'' (i.22).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(18): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(24): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(18): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(24): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(30): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(31): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(38): warning C26482: Only index into arrays using constant expressions (bounds.2).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(38): warning C26446: Prefer to use gsl::at() instead of unchecked subscript operator (bounds.4).
+c:\users\edy\source\repos\hashtable\hashtable\source.cpp(57): warning C26496: The variable 'undePun' is assigned only once, mark it as const (con.4).
