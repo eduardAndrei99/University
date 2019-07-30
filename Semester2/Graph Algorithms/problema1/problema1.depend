@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1551193343 source:c:\users\edy\desktop\problema1\main.cpp
+	<iostream>
+	<fstream>
+	<assert.h>
+	<vector>
+

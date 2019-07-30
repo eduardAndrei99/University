@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1552479628 source:c:\users\edy\desktop\transitiva\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+
+1552479628 source:c:\users\edy\desktop\ag\transitiva\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+

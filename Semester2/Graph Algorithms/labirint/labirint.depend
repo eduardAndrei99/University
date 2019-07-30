@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1552489760 source:c:\users\edy\desktop\labirint\main.cpp
+	<iostream>
+	<fstream>
+	<queue>
+	<string.h>
+	<deque>
+
+1552489760 source:c:\users\edy\desktop\ag\labirint\main.cpp
+	<iostream>
+	<fstream>
+	<queue>
+	<string.h>
+	<deque>
+

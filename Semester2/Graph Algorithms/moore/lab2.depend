@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1552404285 source:c:\users\edy\desktop\lab2\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+
+1552404285 source:c:\users\edy\desktop\ag\moore\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+
